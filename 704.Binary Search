@@ -1,0 +1,11 @@
+public int search(int[] nums, int target){
+        int i = 0;
+        int j = nums.length;
+        while (1 < j-i) {
+            int m = i + (j - i) / 2;
+            if (target < nums[m]) j = m;
+            else i = m;
+        }
+        if(nums[i] == target) return i;
+        else return -1;
+    }
