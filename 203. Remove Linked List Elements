@@ -8,6 +8,7 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
+// option01
 class Solution {
     public ListNode removeElements(ListNode head, int val) {
         if(head == null) return null;
@@ -20,5 +21,18 @@ class Solution {
             p2 = p2.next;
         }
         return sentinel.next;
+    }
+}
+
+// option02(faster)
+class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        if(head == null) return null;
+        else if (head.val == val) {
+            return removeElements(head.next, val);
+        } else {
+            head.next = removeElements(head.next, val);
+            return head;
+        }
     }
 }
