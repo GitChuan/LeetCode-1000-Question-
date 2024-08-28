@@ -1,0 +1,27 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+     public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode sentinel = new ListNode(-1, head);
+        if(head == null || (head.next == null && n == 1)) return null;
+        recursion(sentinel ,n);
+        return sentinel.next;
+    }
+
+    private int recursion(ListNode head, int n){
+        if(head == null) return 0;
+        int nth = recursion(head.next, n);
+        if(nth == n){
+            head.next = head.next.next;
+        }
+        return nth + 1;
+    }
+}
