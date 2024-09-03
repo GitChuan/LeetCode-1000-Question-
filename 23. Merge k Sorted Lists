@@ -34,3 +34,105 @@ class Solution {
         return mergeTwoLists(left, right);
     }
 }
+
+// solution02
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+
+class MinHeep {
+    private final ListNode[] array;
+    private int size;
+
+    public MinHeep(int capacity) {
+        array = new ListNode[capacity];
+    }
+
+    boolean offer(ListNode node){
+        if (isFull()) return false;
+        int p1 = size++;
+        int p2 = (p1 - 1) / 2;
+        while (p1 != 0 && node.val < array[p2].val) {
+            array[p1] = array[p2];
+            p1 = p2;
+            p2 = (p1 - 1) / 2;
+        }
+        array[p1] = node;
+        return true;
+    }
+
+    private void swap(int p1, int p2){
+        ListNode temp = array[p1];
+        array[p1] = array[p2];
+        array[p2] = temp;
+    }
+
+    private void dive(int parent){
+        int left = 2*parent+1;
+        int right = 2*parent+2;
+        int min = parent;
+        if(left < size && array[left].val < array[min].val){
+            min = left;
+        }
+        if(right < size && array[right].val < array[min].val){
+            min = right;
+        }
+        if(min != parent){
+            swap(parent, min);
+            dive(min);
+        }
+    }
+
+    ListNode poll(){
+        if(isEmpty()) return null;
+        ListNode head = array[0];
+        swap(0, --size);
+        array[size] = null;
+        dive(0);
+        return head;
+    }
+
+    ListNode peek(){
+        if(isEmpty()) return null;
+        return array[0];
+    }
+
+    boolean isEmpty(){
+        return size == 0;
+    }
+
+    boolean isFull(){
+        return size == array.length;
+    }
+}
+
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        if(lists.length == 0) return null;
+        MinHeep heep = new MinHeep(lists.length);
+        for (ListNode list : lists) {
+            if (list != null) {
+                heep.offer(list);
+            }
+        }
+        ListNode sentinel = new ListNode(-1, null);
+        ListNode p = sentinel;
+        while (!heep.isEmpty()){
+            ListNode node = heep.poll();
+            p.next = node;
+            p = p.next;
+            if (node.next != null) {
+                heep.offer(node.next);
+            }
+        }
+
+        return sentinel.next;
+    }
+}
