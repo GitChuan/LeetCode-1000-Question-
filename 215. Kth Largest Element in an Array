@@ -1,0 +1,84 @@
+class MinHeap01 {
+    private final int[] array;
+    private int size;
+    public MinHeap01(int capacity) {
+        array = new int[capacity];
+    }
+
+
+    public void heapify() {
+        for (int i = size / 2 - 1; i >= 0; i--) {
+            down(i);
+        }
+    }
+
+    private void down(int parent) {
+        int left = parent * 2 + 1;
+        int right = left + 1;
+        int min = parent;
+        if(left < size && array[left] < array[min]){
+            min = left;
+        }
+        if(right < size && array[right] < array[min]){
+            min = right;
+        }
+        if(min != parent){
+            exchange(min, parent);
+            down(min);
+        }
+    }
+
+    private void exchange(int i, int j){
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
+    public boolean offer(int value) {
+        if(size == array.length) return false;
+        up(value);
+        size++;
+        return true;
+    }
+
+    private void up(int added){
+        int child = size;
+        while (child > 0){
+            int parent = (child - 1)/2;
+            if(array[parent] > added){
+                array[child] = array[parent];
+            } else{
+                break;
+            }
+            child = parent;
+
+        }
+        array[child] = added;
+    }
+
+    public int peek(){
+        if(size == 0) return -1;
+        return array[0];
+    }
+
+    public void replace(int replaced){
+        array[0] = replaced;
+        down(0);
+    }
+
+}
+
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        MinHeap01 heap = new MinHeap01(k);
+        for (int i = 0; i < k; i++) {
+            heap.offer(nums[i]);
+        }
+        for (int i = k; i < nums.length; i++) {
+            if(nums[i] > heap.peek()){
+                heap.replace(nums[i]);
+            }
+        }
+        return heap.peek();
+    }
+}
