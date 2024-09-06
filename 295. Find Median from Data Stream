@@ -189,8 +189,8 @@ class MaxHeap01 {
 }
 
 class MedianFinder {
-    MinHeap01 minHeap = new MinHeap01(50000);
-    MaxHeap01 maxHeap = new MaxHeap01(50000);
+    MinHeap01 minHeap = new MinHeap01(25001);
+    MaxHeap01 maxHeap = new MaxHeap01(25001);
 
     public MedianFinder() {
     }
