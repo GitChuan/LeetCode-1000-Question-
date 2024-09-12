@@ -1,0 +1,26 @@
+import java.util.HashMap;
+import java.util.Map;
+
+class Solution {
+    public String mostCommonWord(String paragraph, String[] banned) {
+        String[] split = paragraph.split("[^A-Za-z]+");
+        HashMap<String, Integer> map = new HashMap<>();
+        for (String key : split) {
+            map.compute(key.toLowerCase(), (k, v)-> v == null ? 1 : v+1);
+        }
+        for (String string : banned) {
+            map.remove(string);
+        }
+
+        int max = 0;
+        String word = null;
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            int val = entry.getValue();
+            if(max < val){
+                max = val;
+                word = entry.getKey();
+            }
+        }
+        return word;
+    }
+}
