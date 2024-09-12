@@ -1,0 +1,16 @@
+class Solution {
+    public int firstUniqChar(String s) {
+        int length = s.length();
+        char[] charArray = s.toCharArray();
+        int[] chars = new int[26];
+        for (int i = 0; i < length; i++) {
+            chars[charArray[i] - 97]++;
+        }
+        for (int i = 0; i < length; i++) {
+            if (chars[charArray[i] - 97] == 1) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
