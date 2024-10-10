@@ -1,0 +1,31 @@
+class Solution {
+        public int[] sortArray(int[] nums) {
+            int length = nums.length;
+            int max = nums[0];
+            int min = nums[0];
+            for (int i = 1; i < length; i++) {
+                int num = nums[i];
+                if(max < num){
+                    max = num;
+                }
+                if(min > num){
+                    min = num;
+                }
+            }
+
+            int[] count = new int[max - min + 1];
+            for (int v : nums) {
+                count[v-min]++;
+            }
+
+            int k = 0;
+            length = count.length;
+            for (int i = 0; i < length; i++) {
+                while (count[i] >0){
+                    nums[k++] = i+min;
+                    count[i]--;
+                }
+            }
+            return nums;
+        }
+}
