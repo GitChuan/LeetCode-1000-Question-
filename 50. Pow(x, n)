@@ -1,0 +1,25 @@
+class Solution {
+        public double myPow(double x, int n) {
+            long p = n;
+            boolean isPositive = true;
+            if (p < 0) {
+                p = -p;
+                isPositive = false;
+            }
+            double ret = positive(x, p);
+            return isPositive ? ret : 1 / ret;
+        }
+
+        private double positive(double x, long n) {
+            if(n == 0){
+                return 1;
+            }
+
+            double y = positive(x, n / 2);
+            if((n & 1) == 0){ // n is even
+                return y * y;
+            } else { // n is odd
+                return x * y * y;
+            }
+        }
+    }
