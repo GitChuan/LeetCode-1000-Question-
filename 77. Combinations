@@ -1,0 +1,24 @@
+class Solution {
+        public List<List<Integer>> combine(int n, int k) {
+            List<List<Integer>> result = new ArrayList<>();
+            dfs(1, n, k, new boolean[n+1], new LinkedList<>(), result);
+            return result;
+        }
+
+        private void dfs(int start, int n, int k, boolean[] visited, LinkedList<Integer> stack, List<List<Integer>> result){
+            if(stack.size() == k){
+                result.add(new ArrayList<>(stack));
+                return;
+            }
+
+            for (int i = start; i <= n; i++) {
+                if(!visited[i]){
+                    stack.push(i);
+                    visited[i] = true;
+                    dfs(i, n, k, visited, stack, result);
+                    stack.pop();
+                    visited[i] = false;
+                }
+            }
+        }
+    }
