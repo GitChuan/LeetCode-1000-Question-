@@ -1,0 +1,19 @@
+class Solution {
+        public int maxProfit(int[] prices) {
+            int firstBuy = -prices[0];
+            int firstSell = 0;
+            
+            int secondBuy = firstBuy;
+            int secondSell = firstSell;
+
+            for (int i = 1; i < prices.length; i++) {
+                int price = prices[i];
+                firstBuy = Math.max(firstBuy, -price);
+                firstSell = Math.max(firstSell, firstBuy+price);
+                
+                secondBuy = Math.max(secondBuy, firstSell-price);
+                secondSell = Math.max(secondSell, secondBuy+price);
+            }
+            return secondSell;
+        }
+    }
